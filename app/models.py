@@ -95,6 +95,9 @@ class Refeicao(models.Model):
         super().clean()
         if not (2 <= self.valor <= 20):
             raise ValidationError('O valor deve estar entre 2 e 20.')
+        
+        if Refeicao.objects.exclude(id=self.id).filter(descricao=self.descricao).exists():
+            raise ValidationError('A descrição deve ser única.')
 
     def __str__(self):
         return self.descricao

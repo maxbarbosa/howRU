@@ -14,3 +14,6 @@ class RefeicaoForm(forms.ModelForm):
     class Meta:
         model = Refeicao
         fields = ['tipo', 'descricao', 'valor']
+        labels = {
+            'descricao': 'Descrição',
+        }
