@@ -4,6 +4,9 @@ from django.contrib.auth import authenticate, login
 from .forms import *
 from .models import *
 
+def homepage(request):
+    return render(request, 'home/index.html')  # Renderiza a página index.html
+
 # View para a tela de login
 def login_aluno(request):
     if request.method == "POST":
@@ -84,9 +87,6 @@ def listar_refeicoes(request):
     else:
         return redirect('login_funcionario')
     
-from django.shortcuts import render, redirect
-from .forms import RefeicaoForm
-
 # View para cadastrar uma nova refeição
 def cadastrar_refeicao(request):
     funcionario_id = request.session.get('funcionario_id')
