@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import *
 from .models import *
@@ -104,3 +105,22 @@ def cadastrar_refeicao(request):
     else:
         return redirect('login_funcionario')
 
+# View para editar uma refeição
+def editar_refeicao(request, refeicao_id):
+    refeicao = get_object_or_404(Refeicao, id=refeicao_id)
+    if request.method == 'POST':
+        form = RefeicaoForm(request.POST, instance=refeicao)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_refeicoes')
+    else:
+        form = RefeicaoForm(instance=refeicao)
+    return render(request, 'funcionario/editar_refeicao.html', {'form': form})
+
+# View para deletar uma refeição
+def deletar_refeicao(request, refeicao_id):
+    refeicao = get_object_or_404(Refeicao, id=refeicao_id)
+    if request.method == 'POST':
+        refeicao.delete()
+        return redirect('listar_refeicoes')
+    return render(request, 'funcionario/deletar_refeicao_confirm.html', {'refeicao': refeicao})

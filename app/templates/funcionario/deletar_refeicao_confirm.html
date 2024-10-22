@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deletar Refeição</title>
+</head>
+<body>
+    <h2>Você tem certeza que deseja deletar a refeição "{{ refeicao.descricao }}"?</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Deletar</button>
+    </form>
+
+    <a href="{% url 'listar_refeicoes' %}">Cancelar</a>
+</body>
+</html>

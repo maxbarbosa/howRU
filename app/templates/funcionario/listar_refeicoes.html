@@ -9,7 +9,11 @@
     {% if refeicoes %}
         <ul>
             {% for refeicao in refeicoes %}
-                <li>{{ refeicao.get_tipo_display }} - {{ refeicao.descricao }} - R$ {{ refeicao.valor }}</li>
+                <li>
+                    {{ refeicao.get_tipo_display }} - {{ refeicao.descricao }} - R$ {{ refeicao.valor }} - Criada por: {{ refeicao.funcionario.nome }}
+                    <a href="{% url 'editar_refeicao' refeicao.id %}"><button>Editar</button></a>
+                    <a href="{% url 'deletar_refeicao' refeicao.id %}"><button>Deletar</button></a>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
