@@ -9,20 +9,19 @@ def homepage(request):
 
 # View para a tela de login
 def login_aluno(request):
+    error_message = None
     if request.method == "POST":
-        form = AlunoLoginForm(request.POST)
-        if form.is_valid():
-            usuario = form.cleaned_data.get("usuario")
-            senha = form.cleaned_data.get("senha")
-            try:
-                aluno = Aluno.objects.get(usuario=usuario, senha=senha)  # Autenticando pelo model Aluno
-                request.session['aluno_id'] = aluno.usuario  # Salvando ID do aluno na sessão
-                return redirect('aluno_home')  # Redirecionando para a página de boas-vindas
-            except Aluno.DoesNotExist:
-                form.add_error(None, "Usuário ou senha incorretos")
-    else:
-        form = AlunoLoginForm()
-    return render(request, 'aluno/login.html', {'form': form})
+        usuario = request.POST.get("usuario")
+        senha = request.POST.get("senha")
+        
+        try:
+            aluno = Aluno.objects.get(usuario=usuario, senha=senha)
+            request.session['aluno_id'] = aluno.usuario  # Salvando o ID do aluno na sessão
+            return redirect('aluno_home')  # Redirecionando para a página de boas-vindas
+        except Aluno.DoesNotExist:
+            error_message = "Usuário ou senha incorretos"  # Definindo a mensagem de erro
+
+    return render(request, 'aluno/login.html', {'error_message': error_message})
 
 # View para a tela de boas-vindas do aluno
 def aluno_home(request):
@@ -35,20 +34,19 @@ def aluno_home(request):
 
 # View para a tela de login do funcionário
 def login_funcionario(request):
+    error_message = None
     if request.method == "POST":
-        form = FuncionarioLoginForm(request.POST)
-        if form.is_valid():
-            usuario = form.cleaned_data.get("usuario")
-            senha = form.cleaned_data.get("senha")
-            try:
-                funcionario = Funcionario.objects.get(usuario=usuario, senha=senha)  # Autenticando pelo model Funcionario
-                request.session['funcionario_id'] = funcionario.usuario  # Salvando o ID do funcionário na sessão
-                return redirect('funcionario_home')  # Redirecionando para a página de boas-vindas
-            except Funcionario.DoesNotExist:
-                form.add_error(None, "Usuário ou senha incorretos")
-    else:
-        form = FuncionarioLoginForm()
-    return render(request, 'funcionario/login.html', {'form': form})
+        usuario = request.POST.get("usuario")
+        senha = request.POST.get("senha")
+        
+        try:
+            funcionario = Funcionario.objects.get(usuario=usuario, senha=senha)
+            request.session['funcionario_id'] = funcionario.usuario  # Salvando o ID do funcionário na sessão
+            return redirect('funcionario_home')  # Redirecionando para a página de boas-vindas
+        except Funcionario.DoesNotExist:
+            error_message = "Usuário ou senha incorretos"  # Definindo a mensagem de erro
+
+    return render(request, 'funcionario/login.html', {'error_message': error_message})
 
 # View para a tela de boas-vindas do funcionário
 def funcionario_home(request):
