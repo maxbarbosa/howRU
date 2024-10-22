@@ -34,3 +34,29 @@ class Aluno(models.Model):
 
     class Meta:
         db_table = "aluno"
+
+class Empresa(models.Model):
+    nome = models.CharField(max_length=100)
+    cnpj = models.CharField(max_length=18, unique=True)
+    endereco = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        db_table = "empresa"
+
+class Funcionario(models.Model):
+    nome = models.CharField(max_length=100)
+    usuario = models.CharField(max_length=50, unique=True, primary_key=True)
+    senha = models.CharField(max_length=50)
+    telefone = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        db_table = "funcionario"
