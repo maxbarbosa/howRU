@@ -82,3 +82,25 @@ def listar_refeicoes(request):
         return render(request, 'funcionario/listar_refeicoes.html', {'refeicoes': refeicoes})
     else:
         return redirect('login_funcionario')
+    
+from django.shortcuts import render, redirect
+from .forms import RefeicaoForm
+
+# View para cadastrar uma nova refeição
+def cadastrar_refeicao(request):
+    funcionario_id = request.session.get('funcionario_id')
+    if funcionario_id:
+        funcionario = Funcionario.objects.get(usuario=funcionario_id)
+        if request.method == 'POST':
+            form = RefeicaoForm(request.POST)
+            if form.is_valid():
+                refeicao = form.save(commit=False)
+                refeicao.funcionario = funcionario  # Associando a refeição ao funcionário logado
+                refeicao.save()
+                return redirect('listar_refeicoes')  # Redireciona para listar refeições após o cadastro
+        else:
+            form = RefeicaoForm()
+        return render(request, 'funcionario/cadastrar_refeicao.html', {'form': form})
+    else:
+        return redirect('login_funcionario')
+

@@ -9,4 +9,5 @@ urlpatterns = [
     path('funcionario/home', funcionario_home, name='funcionario_home'),
     path('funcionario/listar_alunos', listar_alunos, name='listar_alunos'),
     path('funcionario/listar_refeicoes', listar_refeicoes, name='listar_refeicoes'),
+    path('funcionario/cadastrar_refeicao', cadastrar_refeicao, name='cadastrar_refeicao'),
 ]

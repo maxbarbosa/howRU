@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastrar Refeição</title>
+</head>
+<body>
+    <h2>Cadastrar Nova Refeição</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <a href="{% url 'funcionario_home' %}">Voltar</a>
+</body>
+</html>
