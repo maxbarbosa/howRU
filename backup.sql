@@ -8,6 +8,8 @@ SELECT * FROM universidade;
 SELECT * FROM empresa;
 SELECT * FROM aluno;
 SELECT * FROM funcionario;
+SELECT * FROM refeicao;
+SELECT * FROM contrato;
 
 INSERT INTO universidade (nome, cnpj, endereco)
 VALUES ('Universidade Federal da Paraíba', '12.345.678/0001-90', 'Cidade Universitária, João Pessoa - PB');
@@ -33,3 +35,16 @@ VALUES
 
 INSERT INTO contrato (empresa_id, universidade_id, data, duracao)
 VALUES (1, 1, '2024-10-22', 36);
+
+INSERT INTO refeicao (tipo, descricao, valor, funcionario_id) VALUES
+    (0, 'Pão com Manteiga', 5.00, 'joao.silva'),
+    (0, 'Ovos Mexidos', 6.50, 'maria.oliveira'),
+    (0, 'Suco de Laranja', 4.00, 'carlos.pereira'),
+    (1, 'Arroz com Feijão', 10.00, 'joao.silva'), 
+    (1, 'Frango Grelhado', 12.50, 'maria.oliveira'),
+    (1, 'Salada Caesar', 8.00, 'carlos.pereira'),
+    (2, 'Sopa de Legumes', 7.00, 'joao.silva'),
+    (2, 'Pizza Margherita', 15.00, 'maria.oliveira'),
+    (2, 'Sanduíche de Atum', 9.50, 'carlos.pereira');
+
+

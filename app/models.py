@@ -1,8 +1,14 @@
+import re
+from django.core.exceptions import ValidationError
 from django.db import models
+
+def validate_cnpj(cnpj):
+    if not re.match(r'^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$', cnpj):
+        raise ValidationError('CNPJ inválido.')
 
 class Universidade(models.Model):
     nome = models.CharField(max_length=100)
-    cnpj = models.CharField(max_length=18, unique=True)
+    cnpj = models.CharField(max_length=18, unique=True, validators=[validate_cnpj])
     endereco = models.CharField(max_length=255)
 
     def __str__(self):
@@ -72,3 +78,26 @@ class Contrato(models.Model):
 
     class Meta:
         db_table = "contrato"
+    
+class Refeicao(models.Model):
+    TIPO_CHOICES = [
+        (0, 'Café da Manhã'),
+        (1, 'Almoço'),
+        (2, 'Jantar'),
+    ]
+
+    tipo = models.IntegerField(choices=TIPO_CHOICES)
+    descricao = models.CharField(max_length=255)
+    valor = models.DecimalField(max_digits=5, decimal_places=2)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
+
+    def clean(self):
+        super().clean()
+        if not (2 <= self.valor <= 20):
+            raise ValidationError('O valor deve estar entre 2 e 20.')
+
+    def __str__(self):
+        return self.descricao
+
+    class Meta:
+        db_table = "refeicao"

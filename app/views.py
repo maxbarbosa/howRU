@@ -71,3 +71,14 @@ def listar_alunos(request):
             return render(request, 'funcionario/listar_alunos.html', {'error': 'Nenhum contrato encontrado para a empresa.'})
     else:
         return redirect('login_funcionario')
+    
+# View para listar as refeições cadastradas pelo funcionário e pela empresa
+def listar_refeicoes(request):
+    funcionario_id = request.session.get('funcionario_id')
+    if funcionario_id:
+        funcionario = Funcionario.objects.get(usuario=funcionario_id)
+        # Listar as refeições cadastradas por funcionários da mesma empresa
+        refeicoes = Refeicao.objects.filter(funcionario__empresa=funcionario.empresa).order_by('tipo')
+        return render(request, 'funcionario/listar_refeicoes.html', {'refeicoes': refeicoes})
+    else:
+        return redirect('login_funcionario')

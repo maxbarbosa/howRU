@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Refeições</title>
+</head>
+<body>
+    <h2>Lista de Refeições</h2>
+
+    {% if refeicoes %}
+        <ul>
+            {% for refeicao in refeicoes %}
+                <li>{{ refeicao.get_tipo_display }} - {{ refeicao.descricao }} - R$ {{ refeicao.valor }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhuma refeição cadastrada.</p>
+    {% endif %}
+
+    <a href="{% url 'funcionario_home' %}">Voltar</a>
+</body>
+</html>
