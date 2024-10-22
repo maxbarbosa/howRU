@@ -7,6 +7,9 @@ urlpatterns = [
     path('login/funcionario/', login_funcionario, name='login_funcionario'),
     
     path('aluno/home', aluno_home, name='aluno_home'),
+    path('aluno/perfil', aluno_perfil, name='aluno_perfil'),
+    path('aluno/logout', aluno_logout, name='aluno_logout'),
+
     path('funcionario/home', funcionario_home, name='funcionario_home'),
     path('funcionario/listar_alunos', listar_alunos, name='listar_alunos'),
     path('funcionario/listar_refeicoes', listar_refeicoes, name='listar_refeicoes'),

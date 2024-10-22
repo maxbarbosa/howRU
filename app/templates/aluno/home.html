@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home do Aluno</title>
 </head>
 <body>
     <h2>Bem-vindo, {{ aluno.nome }}!</h2>
+
+    <form action="{% url 'aluno_perfil' %}" method="get">
+        <button type="submit">Usuário</button>
+    </form>
+
+    <form action="{% url 'aluno_logout' %}" method="get">
+        <button type="submit">Logout</button>
+    </form>
+
+    <h3>Últimos agendamentos:</h3>
+    <!-- Aqui você pode continuar exibindo os agendamentos do aluno -->
 </body>
 </html>

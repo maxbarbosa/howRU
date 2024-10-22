@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout as django_logout
 from .forms import *
 from .models import *
 
@@ -31,6 +32,22 @@ def aluno_home(request):
         return render(request, 'aluno/home.html', {'aluno': aluno})
     else:
         return redirect('login_aluno')
+
+# View para exibir os dados do aluno
+def aluno_perfil(request):
+    aluno_id = request.session.get('aluno_id')
+    if aluno_id:
+        aluno = Aluno.objects.get(usuario=aluno_id)
+        return render(request, 'aluno/perfil.html', {'aluno': aluno})
+    else:
+        return redirect('login_aluno')
+
+# View para fazer logout do aluno
+def aluno_logout(request):
+    if request.session.get('aluno_id'):
+        request.session.flush()  # Remove todos os dados da sessão
+        django_logout(request)
+    return redirect('login_aluno')
 
 # View para a tela de login do funcionário
 def login_funcionario(request):
