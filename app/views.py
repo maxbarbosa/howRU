@@ -54,3 +54,20 @@ def funcionario_home(request):
         return render(request, 'funcionario/home.html', {'funcionario': funcionario})
     else:
         return redirect('login_funcionario')
+    
+# View para listar os alunos relacionados ao contrato do funcionário
+def listar_alunos(request):
+    funcionario_id = request.session.get('funcionario_id')
+    if funcionario_id:
+        funcionario = Funcionario.objects.get(usuario=funcionario_id)
+        # Encontrar o contrato da empresa do funcionário
+        contrato = Contrato.objects.filter(empresa=funcionario.empresa).first()
+        
+        if contrato:
+            # Listar os alunos que pertencem à mesma universidade do contrato
+            alunos = Aluno.objects.filter(universidade=contrato.universidade)
+            return render(request, 'funcionario/listar_alunos.html', {'alunos': alunos})
+        else:
+            return render(request, 'funcionario/listar_alunos.html', {'error': 'Nenhum contrato encontrado para a empresa.'})
+    else:
+        return redirect('login_funcionario')

@@ -5,5 +5,9 @@
 </head>
 <body>
     <h2>Bem-vindo, {{ funcionario.nome }}!</h2>
+
+    <form action="{% url 'listar_alunos' %}" method="get">
+        <button type="submit">Listar Alunos</button>
+    </form>
 </body>
 </html>

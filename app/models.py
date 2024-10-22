@@ -60,3 +60,15 @@ class Funcionario(models.Model):
 
     class Meta:
         db_table = "funcionario"
+
+class Contrato(models.Model):
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    universidade = models.ForeignKey(Universidade, on_delete=models.CASCADE)
+    data = models.DateField()
+    duracao = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.empresa} - {self.universidade}"
+
+    class Meta:
+        db_table = "contrato"

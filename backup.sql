@@ -31,3 +31,5 @@ VALUES
 ('Maria Oliveira', 'maria.oliveira', 'senha456', '(11) 99876-5432', 'maria.oliveira@techsolutions.com.br', 1),
 ('Carlos Pereira', 'carlos.pereira', 'senha789', '(11) 98765-4321', 'carlos.pereira@techsolutions.com.br', 1);
 
+INSERT INTO contrato (empresa_id, universidade_id, data, duracao)
+VALUES (1, 1, '2024-10-22', 36);
