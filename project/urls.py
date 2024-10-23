@@ -9,6 +9,9 @@ urlpatterns = [
     path('aluno/home', aluno_home, name='aluno_home'),
     path('aluno/perfil', aluno_perfil, name='aluno_perfil'),
     path('aluno/logout', aluno_logout, name='aluno_logout'),
+    path('aluno/criar_agendamento', aluno_criar_agendamento, name='aluno_criar_agendamento'),
+    path('aluno/editar_agendamento/<int:agendamento_id>', aluno_editar_agendamento, name='aluno_editar_agendamento'),
+
 
     path('funcionario/home', funcionario_home, name='funcionario_home'),
     path('funcionario/listar_alunos', listar_alunos, name='listar_alunos'),

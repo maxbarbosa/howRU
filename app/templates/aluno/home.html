@@ -1,22 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home do Aluno</title>
+    <title>Página Principal</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .status-confirmado {
+            color: green;
+            font-weight: bold;
+        }
+        .status-pendente {
+            color: black;
+            font-weight: bold;
+        }
+        .status-cancelado {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h2>Bem-vindo, {{ aluno.nome }}!</h2>
+    <div class="container text-center">
+        <div class="row justify-content-between mb-4">
+            <div class="col text-start">
+                <h1>Bem-vindo(a), {{ aluno.nome }}!</h1>
+            </div>
+            <div class="col text-end">
+                <a href="{% url 'aluno_perfil' %}" class="btn btn-primary me-2">Perfil</a>
+                <a href="{% url 'aluno_logout' %}" class="btn btn-danger">SAIR</a>
+            </div>
+        </div>
 
-    <form action="{% url 'aluno_perfil' %}" method="get">
-        <button type="submit">Usuário</button>
-    </form>
+        <div class="mb-4">
+            <a href="{% url 'aluno_criar_agendamento' %}" class="btn btn-success">AGENDAR</a>
+        </div>
 
-    <form action="{% url 'aluno_logout' %}" method="get">
-        <button type="submit">Logout</button>
-    </form>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Refeições</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for agendamento in agendamentos %}
+                        <tr>
+                            <td>{{ agendamento.data }}</td>
+                            <td>
+                                {% if agendamento.refeicoes.cafe %}CA{% endif %}
+                                {% if agendamento.refeicoes.almoco %}, AL{% endif %}
+                                {% if agendamento.refeicoes.jantar %}, JA{% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'aluno_editar_agendamento' agendamento.id %}"
+                                   class="
+                                   {% if agendamento.status == 'confirmado' %}status-confirmado{% elif agendamento.status == 'cancelado' %}status-cancelado{% else %}status-pendente{% endif %}">
+                                    {{ agendamento.status|upper }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-    <h3>Últimos agendamentos:</h3>
-    <!-- Aqui você pode continuar exibindo os agendamentos do aluno -->
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

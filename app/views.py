@@ -27,11 +27,17 @@ def login_aluno(request):
 # View para a tela de boas-vindas do aluno
 def aluno_home(request):
     aluno_id = request.session.get('aluno_id')
-    if aluno_id:
-        aluno = Aluno.objects.get(usuario=aluno_id)
-        return render(request, 'aluno/home.html', {'aluno': aluno})
-    else:
+    if not aluno_id:
         return redirect('login_aluno')
+
+    aluno = Aluno.objects.get(usuario=aluno_id)
+    agendamentos = Agendamento.objects.filter(aluno=aluno)
+
+    return render(request, 'aluno/home.html', {
+        'aluno': aluno,
+        'agendamentos': agendamentos
+    })
+
 
 # View para exibir os dados do aluno
 def aluno_perfil(request):
@@ -139,3 +145,82 @@ def deletar_refeicao(request, refeicao_id):
         refeicao.delete()
         return redirect('listar_refeicoes')
     return render(request, 'funcionario/deletar_refeicao_confirm.html', {'refeicao': refeicao})
+
+def aluno_criar_agendamento(request):
+    aluno_id = request.session.get('aluno_id')
+    if not aluno_id:
+        return redirect('login_aluno')
+
+    aluno = Aluno.objects.get(usuario=aluno_id)
+    
+    refeicoes_cafe = Refeicao.objects.filter(tipo=0)
+    refeicoes_almoco = Refeicao.objects.filter(tipo=1)
+    refeicoes_jantar = Refeicao.objects.filter(tipo=2)
+
+    error_message = None  # Variável para armazenar a mensagem de erro
+
+    if request.method == 'POST':
+        data = request.POST.get('data')
+        cafe = request.POST.get('cafe')
+        almoco = request.POST.get('almoco')
+        jantar = request.POST.get('jantar')
+        status = request.POST.get('status')
+
+        refeicoes = {
+            'cafe': cafe,
+            'almoco': almoco,
+            'jantar': jantar
+        }
+
+        agendamento = Agendamento(
+            data=data,
+            status=status,
+            aluno=aluno,
+            refeicoes=refeicoes
+        )
+
+        # Tentando validar o agendamento antes de salvar
+        try:
+            agendamento.full_clean()  # Chama todas as validações do model
+            agendamento.save()  # Salva no banco de dados se tudo estiver válido
+            return redirect('aluno_home')
+        except ValidationError as e:
+            error_message = e.messages  # Captura as mensagens de erro
+
+    return render(request, 'aluno/criar_agendamento.html', {
+        'refeicoes_cafe': refeicoes_cafe,
+        'refeicoes_almoco': refeicoes_almoco,
+        'refeicoes_jantar': refeicoes_jantar,
+        'error_message': error_message  # Passa a mensagem de erro para o template
+    })
+
+def aluno_editar_agendamento(request, agendamento_id):
+    agendamento = get_object_or_404(Agendamento, id=agendamento_id)
+    refeicoes_cafe = Refeicao.objects.filter(tipo=0)
+    refeicoes_almoco = Refeicao.objects.filter(tipo=1)
+    refeicoes_jantar = Refeicao.objects.filter(tipo=2)
+
+    error_message = None  # Variável para armazenar a mensagem de erro
+
+    if request.method == 'POST':
+        agendamento.data = request.POST.get('data')
+        agendamento.refeicoes['cafe'] = request.POST.get('cafe')
+        agendamento.refeicoes['almoco'] = request.POST.get('almoco')
+        agendamento.refeicoes['jantar'] = request.POST.get('jantar')
+        agendamento.status = request.POST.get('status')
+
+        # Tentando validar o agendamento antes de salvar
+        try:
+            agendamento.full_clean()  # Chama as validações do model
+            agendamento.save()  # Salva no banco de dados se tudo estiver válido
+            return redirect('aluno_home')
+        except ValidationError as e:
+            error_message = e.messages  # Captura as mensagens de erro
+
+    return render(request, 'aluno/editar_agendamento.html', {
+        'agendamento': agendamento,
+        'refeicoes_cafe': refeicoes_cafe,
+        'refeicoes_almoco': refeicoes_almoco,
+        'refeicoes_jantar': refeicoes_jantar,
+        'error_message': error_message  # Passa a mensagem de erro para o template
+    })
