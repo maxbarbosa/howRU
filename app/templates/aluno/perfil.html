@@ -4,17 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Aluno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f7f7;
+        }
+
+        .profile-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .profile-container h2 {
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-back:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
+
+<div class="profile-container">
     <h2>Dados do Aluno</h2>
-    <p><strong>Nome:</strong> {{ aluno.nome }}</p>
-    <p><strong>Usuário:</strong> {{ aluno.usuario }}</p>
-    <p><strong>Curso:</strong> {{ aluno.curso }}</p>
-    <p><strong>Matrícula:</strong> {{ aluno.matricula }}</p>
-    <p><strong>Email:</strong> {{ aluno.email }}</p>
-    <p><strong>Telefone:</strong> {{ aluno.telefone }}</p>
-    <p><strong>Universidade:</strong> {{ aluno.universidade.nome }}</p>
-    
-    <a href="{% url 'aluno_home' %}">Voltar</a>
+    <div class="profile-info">
+        <p><strong>Nome:</strong> {{ aluno.nome }}</p>
+        <p><strong>Usuário:</strong> {{ aluno.usuario }}</p>
+        <p><strong>Curso:</strong> {{ aluno.curso }}</p>
+        <p><strong>Matrícula:</strong> {{ aluno.matricula }}</p>
+        <p><strong>Email:</strong> {{ aluno.email }}</p>
+        <p><strong>Telefone:</strong> {{ aluno.telefone }}</p>
+        <p><strong>Universidade:</strong> {{ aluno.universidade.nome }}</p>
+    </div>
+    <a href="{% url 'aluno_home' %}" class="btn-back">Voltar</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
