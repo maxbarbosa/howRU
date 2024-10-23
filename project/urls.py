@@ -12,7 +12,7 @@ urlpatterns = [
     path('aluno/criar_agendamento', aluno_criar_agendamento, name='aluno_criar_agendamento'),
     path('aluno/editar_agendamento/<int:agendamento_id>', aluno_editar_agendamento, name='aluno_editar_agendamento'),
 
-
+    path('funcionario/dashboard', funcionario_dashboard, name='funcionario_dashboard'),
     path('funcionario/home', funcionario_home, name='funcionario_home'),
     path('funcionario/listar_alunos', listar_alunos, name='listar_alunos'),
     path('funcionario/listar_refeicoes', listar_refeicoes, name='listar_refeicoes'),

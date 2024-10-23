@@ -224,3 +224,11 @@ def aluno_editar_agendamento(request, agendamento_id):
         'refeicoes_jantar': refeicoes_jantar,
         'error_message': error_message  # Passa a mensagem de erro para o template
     })
+
+def funcionario_dashboard(request):
+    funcionario_id = request.session.get('funcionario_id')
+    if funcionario_id:
+        funcionario = Funcionario.objects.get(usuario=funcionario_id)
+        return render(request, 'funcionario/dashboard.html', {'funcionario': funcionario})
+    else:
+        return redirect('login_funcionario')

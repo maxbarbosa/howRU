@@ -28,6 +28,15 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+STATIC_URL = '/static/'
+
+# Adicione esta configuração se tiver um diretório estático no nível do projeto
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Django 3.1+ com pathlib
+    # ou, se estiver usando uma versão mais antiga do Django:
+    # os.path.join(BASE_DIR, 'static'),
+]
+
 # Application definition
 
 INSTALLED_APPS = [
